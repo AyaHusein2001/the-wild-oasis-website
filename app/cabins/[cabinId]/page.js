@@ -1,6 +1,10 @@
+import Reservation from "@/app/_components/Reservation";
+import Spinner from "@/app/_components/Spinner";
+import TextExpander from "@/app/_components/TextExpander (Copy)";
 import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { Suspense } from "react";
 
 // export const metaData = {
 //     title: "Cabin",
@@ -21,9 +25,16 @@ export async function generateStaticParams() {
   }));
 }
 export default async function Page({ params }) {
-  const { name, maxCapacity, regularPrice, discount, image, description } =
-    await getCabin(params?.cabinId);
+  const cabin = await getCabin(params?.cabinId);
 
+  // const [cabin, settings, bookedDates] = await Promise.all([
+  //   getCabin(params?.cabinId),
+  //   getSettings(),
+  //   getBookedDatesByCabinId(params?.cabinId),
+  // ]);
+
+  const { name, maxCapacity, regularPrice, discount, image, description } =
+    cabin;
   return (
     <div className="max-w-6xl mx-auto mt-8">
       <div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
@@ -41,7 +52,9 @@ export default async function Page({ params }) {
             Cabin {name}
           </h3>
 
-          <p className="text-lg text-primary-300 mb-10">{description}</p>
+          <p className="text-lg text-primary-300 mb-10">
+            <TextExpander>{description}</TextExpander>
+          </p>
 
           <ul className="flex flex-col gap-4 mb-7">
             <li className="flex gap-3 items-center">
@@ -69,9 +82,12 @@ export default async function Page({ params }) {
       </div>
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center text-accent-400 mb-10">
+          Reserve {name} today. Pay on arrival.
         </h2>
+        <Suspense fallback={<Spinner />}>
+          <Reservation cabin={cabin} />
+        </Suspense>
       </div>
     </div>
   );

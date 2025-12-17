@@ -22,6 +22,14 @@
     border-right-color: transparent;
     animation: rotate 1s infinite linear;
   }
+  /* months container */
+  .rdp-root {
+    display: flex;
+    gap: 2rem;
+  }
+  .my-picker .rdp-nav_button svg {
+    fill: rgb(210 175 132) !important;
+  }
 
   @keyframes rotate {
     to {
