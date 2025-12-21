@@ -6,7 +6,6 @@ import SpinnerMini from "./SpinnerMini";
 import SubmitButton from "./SubmitButton";
 
 const UpdateProfileForm = ({ children, guest }) => {
-  console.log("🚀 ~ UpdateProfileForm ~ guest:", guest);
   const { fullName, email, nationality, nationalID, countryFlag } = guest;
 
   const [first, setfirst] = useState("");
