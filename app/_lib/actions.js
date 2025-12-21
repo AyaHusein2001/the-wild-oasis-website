@@ -45,6 +45,8 @@ export async function deleteReservationAction(bookingId) {
   if (!session) {
     throw new Error("You must be signed in to update your profile");
   }
+  //For testing useOptimistic
+  // throw new Error("You can only delete your own reservations");
   const guestBookings = await getBookings(session.user.guestId);
   const guestBookingIds = guestBookings.map((booking) => booking.id);
   if (!guestBookingIds.includes(bookingId)) {
